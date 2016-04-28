@@ -48,6 +48,12 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test 'email validation should reject emails with two consecutive dots' do
+    invalid_address = 'user@example..com'
+    @user.email = invalid_address
+    assert_not @user.valid?, '#{invalid_address.inspect} should be invalid'
+  end
+
   test 'email addresses should be unique' do
     duplicate_user = @user.dup
     duplicate_user.email = @user.email.upcase
